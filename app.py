@@ -17,6 +17,8 @@ st.set_page_config(page_title="Trợ lý AI", layout="centered")
 with open("static/style.css") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
+st.set_page_config(page_title="Chatbot AI", layout="centered")
+
 # Header
 st.markdown("<h1 class='title'>🧠 Anh Lập Trình - Trợ Lý AI</h1>", unsafe_allow_html=True)
 
