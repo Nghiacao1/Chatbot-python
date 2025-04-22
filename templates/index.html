@@ -8,17 +8,17 @@
 </head>
 <body>
   <div class="container">
-    <h1 class="title">🧠 Em Trinh - Trợ Lý AI</h1>
+    <h1 class="title">🧠 Anh Lập Trình - Trợ Lý AI</h1>
     <div class="chat-box">
       <div class="message system">
-        🤖 Trinh: Chào bạn! Tôi là Trinh, trợ lý AI của bạn. Hãy bắt đầu trò chuyện nhé!
+        🤖 Chào sếp! Tôi là Trinh, trợ lý AI của bạn. Hãy bắt đầu trò chuyện nhé!
       </div>
       {% for m in messages %}
         <div class="message {{ m.role }}">
           {% if m.role == 'user' %}
             👤 Bạn: {{ m.content }}
           {% else %}
-            🤖 Trinh: {{ m.content }}
+            🤖 {{ m.content }}
           {% endif %}
         </div>
       {% endfor %}
