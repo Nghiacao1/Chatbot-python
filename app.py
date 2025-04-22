@@ -42,7 +42,7 @@ if user_input:
     st.session_state.messages.append({"role": "user", "content": user_input})
     with st.spinner("Đợi Trinh trả lời..."):
         try:
-            response = openai.ChatCompletion.create(
+            response = openai.completions.create(
                 model="gpt-3.5-turbo",
                 messages=[m for m in st.session_state.messages if m["role"] != "system"]
             )
