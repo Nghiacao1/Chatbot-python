@@ -54,9 +54,9 @@ if user_input:
                 prompt="Bạn là một trợ lý AI thông minh. Chào bạn!",  # Tham số prompt
                 max_tokens=150  # Số lượng token tối đa (có thể thêm các tham số khác nếu cần)
             )
-            st.write(response) 
-            reply = response["choices"][0]["message"]["content"]
-            st.session_state.messages.append({"role": "assistant", "content": reply})
-            st.experimental_rerun()
+                st.write(response) 
+                reply = response["choices"][0]["message"]["content"]
+                st.session_state.messages.append({"role": "assistant", "content": reply})
+                st.experimental_rerun()
         except Exception as e:
             st.error(f"❌ Lỗi: {e}")
