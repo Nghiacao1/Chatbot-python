@@ -3,31 +3,29 @@ import openai
 import os
 from dotenv import load_dotenv
 
+# Tải biến môi trường từ tệp .env
 load_dotenv()
 
-# Config
-openai.api_key = os.getenv("OPENROUTER_API_KEY")
+# Lấy khóa API từ biến môi trường
+openai.api_key = os.getenv("OPENROUTER_API_KEY")  # Sử dụng OpenRouter API key nếu bạn dùng OpenRouter
 
+# Kiểm tra xem có API key không
 if openai.api_key is None:
-    raise ValueError("Không thể tìm thấy API Key trong .env!")
-# Set page config
-st.set_page_config(page_title="Trợ lý AI", layout="centered")
+    raise ValueError("API Key chưa được thiết lập! Vui lòng thêm OPENROUTER_API_KEY vào tệp .env.")
 
-# Load CSS
-with open("static/style.css") as f:
-    st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+# Cài đặt cấu hình trang Streamlit
+st.set_page_config(page_title="Chatbot AI", layout="centered")
 
+# Hiển thị tiêu đề
+st.markdown("# 🧠 Chatbot AI")
 
-# Header
-st.markdown("<h1 class='title'>🧠 Anh Lập Trình - Trợ Lý AI</h1>", unsafe_allow_html=True)
-
-# Init message history
+# Khởi tạo lịch sử trò chuyện
 if "messages" not in st.session_state:
     st.session_state.messages = [
-        {"role": "system", "content": "🤖 Chào sếp! Tôi là Trình, trợ lý AI của bạn. Hãy bắt đầu trò chuyện nhé!"}
+        {"role": "system", "content": "Chào bạn! Tôi là Trợ lý AI, bạn cần giúp gì?"}
     ]
 
-# Render chat
+# Hiển thị các tin nhắn trong cuộc trò chuyện
 chat_html = '<div class="chat-box">'
 for m in st.session_state.messages:
     role = m["role"]
@@ -35,27 +33,28 @@ for m in st.session_state.messages:
     if role == "user":
         chat_html += f'<div class="message user">👤 Bạn: {content}</div>'
     elif role == "assistant":
-        chat_html += f'<div class="message assistant">🤖: {content}</div>'
+        chat_html += f'<div class="message assistant">🤖 Trợ lý: {content}</div>'
     else:
         chat_html += f'<div class="message system">{content}</div>'
 chat_html += '</div>'
 st.markdown(chat_html, unsafe_allow_html=True)
 
-# Input box
-user_input = st.text_input("Sếp nhập nội dung cần trao đổi ở đây nhé?", placeholder="Sếp nhập nội dung cần trao đổi ở đây nhé?", label_visibility="collapsed")
+# Nhập văn bản của người dùng
+user_input = st.text_input("Nhập câu hỏi của bạn:")
 
-# Process input
+# Xử lý đầu vào từ người dùng
 if user_input:
     st.session_state.messages.append({"role": "user", "content": user_input})
-    with st.spinner("Đợi Trinh trả lời..."):
+    
+    with st.spinner("Đang chờ câu trả lời..."):
         try:
-            response = openai.completions.create(
-                model="gpt-3.5-turbo",
-                # messages=[m for m in st.session_state.messages if m["role"] != "system"]
-                prompt="Bạn là một trợ lý AI thông minh. Chào bạn!",  # Tham số prompt
-                max_tokens=150  # Số lượng token tối đa (có thể thêm các tham số khác nếu cần)
+            # Gửi yêu cầu đến OpenAI (hoặc OpenRouter)
+            response = openai.Completion.create(
+                model="gpt-3.5-turbo",  # Hoặc model của OpenRouter
+                prompt=user_input,
+                max_tokens=150
             )
-            reply = response["choices"][0]["message"]["content"]
+            reply = response["choices"][0]["text"].strip()
             st.session_state.messages.append({"role": "assistant", "content": reply})
             st.experimental_rerun()
         except Exception as e:
