@@ -4,7 +4,9 @@ import openai
 import os
 from dotenv import load_dotenv
 
-load_dotenv()
+if os.getenv("STREAMLIT_ENV") != "cloud":
+    from dotenv import load_dotenv
+    load_dotenv()
 openai.api_key = os.getenv("OPENROUTER_API_KEY")
 
 app = Flask(__name__)
