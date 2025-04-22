@@ -2,6 +2,8 @@ import streamlit as st
 import openai
 import os
 
+load_dotenv()
+
 # Config
 openai.api_key = os.getenv("OPENROUTER_API_KEY")
 
