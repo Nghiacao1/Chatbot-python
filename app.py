@@ -55,8 +55,8 @@ if user_input:
                 prompt="Bạn là một trợ lý AI thông minh. Chào bạn!",  # Tham số prompt
                 max_tokens=150,  # Số lượng token tối đa (có thể thêm các tham số khác nếu cần)
                 headers= {
-            'HTTP-Referer'= 'https://localhost',  // hoặc domain của bạn
-            'Content-Type'= 'application/json',
+            'HTTP-Referer': 'https://localhost',  // hoặc domain của bạn
+            'Content-Type': 'application/json',
           }          
             )
             reply = response["choices"][0]["message"]["content"]
