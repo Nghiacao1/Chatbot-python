@@ -35,7 +35,7 @@ chat_html += '</div>'
 st.markdown(chat_html, unsafe_allow_html=True)
 
 # Input box
-user_input = st.text_input("Sếp nhập nội dung cần trao đổi ở đây nhé?", label_visibility="collapsed")
+user_input = st.text_input("Sếp nhập nội dung cần trao đổi ở đây nhé?", placeholder="Sếp nhập nội dung cần trao đổi ở đây nhé?", label_visibility="collapsed")
 
 # Process input
 if user_input:
