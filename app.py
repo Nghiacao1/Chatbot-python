@@ -3,7 +3,10 @@ import openai
 import os
 
 # Config
-openai.api_key = st.secrets.get("OPENROUTER_API_KEY", os.getenv("OPENROUTER_API_KEY"))
+openai.api_key = os.getenv("OPENROUTER_API_KEY")
+
+if openai.api_key is None:
+    raise ValueError("API Key chưa được thiết lập! Vui lòng thêm OPENAI_API_KEY vào tệp .env.")
 # Set page config
 st.set_page_config(page_title="Trợ lý AI", layout="centered")
 
