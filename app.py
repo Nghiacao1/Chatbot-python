@@ -49,12 +49,19 @@ if user_input:
     st.session_state.messages.append({"role": "user", "content": user_input})
     with st.spinner("Đợi Trinh trả lời..."):
         try:
-            response = openai.completions.create(
-                model="gpt-3.5-turbo",
-                # messages=[m for m in st.session_state.messages if m["role"] != "system"]
-                prompt="Bạn là một trợ lý AI thông minh. Chào bạn!",  # Tham số prompt
-                max_tokens=150  # Số lượng token tối đa (có thể thêm các tham số khác nếu cần)
-            )
+            const response = await axios.post(
+      'https://openrouter.ai/api/v1/chat/completions',
+      {
+        model: 'openai/gpt-3.5-turbo', // bạn có thể thay bằng claude-3, mistral, llama3, gpt-4...
+        messages: history,
+      },
+      {
+        headers: {
+            'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
+            'HTTP-Referer': 'https://localhost',  // hoặc domain của bạn
+            'Content-Type': 'application/json',
+          }          
+      }
             reply = response["choices"][0]["message"]["content"]
             st.session_state.messages.append({"role": "assistant", "content": reply})
             st.experimental_rerun()
