@@ -57,7 +57,7 @@ if user_input:
             )
             reply = response["choices"][0]["message"]["content"]
             st.session_state.messages.append({"role": "assistant", "content": reply})
-            # st.experimental_rerun()
+            st.experimental_rerun()
 except openai.error.AuthenticationError as e:
     st.error(f"Lỗi xác thực API: {e}")
 except openai.error.OpenAIError as e:
