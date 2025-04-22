@@ -1,0 +1,32 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Trợ lý AI</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1 class="title">🧠 Em Trinh - Trợ Lý AI</h1>
+    <div class="chat-box">
+      <div class="message system">
+        🤖 Trinh: Chào bạn! Tôi là Trinh, trợ lý AI của bạn. Hãy bắt đầu trò chuyện nhé!
+      </div>
+      {% for m in messages %}
+        <div class="message {{ m.role }}">
+          {% if m.role == 'user' %}
+            👤 Bạn: {{ m.content }}
+          {% else %}
+            🤖 Trinh: {{ m.content }}
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+    <form method="POST">
+      <input type="text" name="message" placeholder="Sếp nhập nội dung cần trao đổi ở đây nhé?" required autocomplete="off">
+      <button type="submit">➤</button>
+    </form>
+  </div>
+</body>
+</html>
