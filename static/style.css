@@ -83,13 +83,17 @@
   }
   
   .input-form input[type="text"] {
-    flex-grow: 1;
-    padding: 15px;
-    border: none;
-    outline: none;
-    background: transparent;
-    color: var(--text-color);
-  }
+  flex-grow: 1;
+  padding: 15px;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--text-color); /* 💡 Dòng quan trọng để chữ hiển thị theo theme */
+}
+
+.input-form input[type="text"]::placeholder {
+  color: rgba(255, 255, 255, 0.5); /* hoặc rgba(0, 0, 0, 0.5) cho light mode */
+}
   
   .input-form button {
     padding: 0 20px;
