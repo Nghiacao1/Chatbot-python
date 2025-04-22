@@ -7,7 +7,7 @@ load_dotenv()
 
 # Config
 openai.api_key = st.secrets["OPENROUTER_API_KEY"]
-
+openai.api_base = "https://your-custom-endpoint.com/v1"
 if openai.api_key is None:
     raise ValueError("Không thể tìm thấy API Key trong .env!")
 # Set page config
