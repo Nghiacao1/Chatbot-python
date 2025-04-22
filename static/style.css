@@ -99,6 +99,14 @@
     cursor: pointer;
     font-size: 18px;
   }
+    input[type="text"] {
+  flex: 1;
+  padding: 10px;
+  border-radius: 20px;
+  border: none;
+  background-color: #2c2c2c;
+  color: white; /* 👈 THÊM DÒNG NÀY nếu chưa có */
+}
   /* Responsive mobile */
 @media (max-width: 480px) {
     .chat-box {
