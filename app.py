@@ -49,7 +49,7 @@ if user_input:
     with st.spinner("Đang chờ câu trả lời..."):
         try:
             # Gửi yêu cầu đến OpenAI (hoặc OpenRouter)
-            response = openai.completion.create(
+            response = openai.completions.create(
                 model="gpt-3.5-turbo",  # Hoặc model của OpenRouter
                 prompt=user_input,
                 max_tokens=150
