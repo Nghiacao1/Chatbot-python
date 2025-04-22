@@ -1,33 +1,39 @@
 import streamlit as st
-from flask import Flask, render_template, request
 import openai
 import os
-from dotenv import load_dotenv
 
-if os.getenv("STREAMLIT_ENV") != "cloud":
-    from dotenv import load_dotenv
-    load_dotenv()
-openai.api_key = os.getenv("OPENROUTER_API_KEY")
+# Dùng secrets trong môi trường Streamlit Cloud
+openai.api_key = st.secrets.get("OPENROUTER_API_KEY", os.getenv("OPENROUTER_API_KEY"))
 
-app = Flask(__name__)
+# Cấu hình Streamlit
+st.set_page_config(page_title="Trợ lý Em Trinh", page_icon="🧠")
+st.title("🧠 Em Trinh - Trợ lý AI")
 
-messages = []
+# Khởi tạo session_state lưu tin nhắn
+if "messages" not in st.session_state:
+    st.session_state.messages = [
+        {"role": "assistant", "content": "Chào bạn! Tôi là Trinh, trợ lý AI của bạn. Hãy bắt đầu trò chuyện nhé!"}
+    ]
 
-@app.route("/", methods=["GET", "POST"])
-def index():
-    global messages
-    if request.method == "POST":
-        user_input = request.form["message"]
-        messages.append({"role": "user", "content": user_input})
-        
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=messages
-        )
-        bot_reply = response["choices"][0]["message"]["content"]
-        messages.append({"role": "assistant", "content": bot_reply})
+# Hiển thị các tin nhắn
+for msg in st.session_state.messages:
+    role = "👤 Bạn" if msg["role"] == "user" else "🤖 Trinh"
+    st.markdown(f"**{role}:** {msg['content']}")
+
+# Nhập tin nhắn
+user_input = st.text_input("Sếp nhập nội dung cần trao đổi ở đây nhé:", key="input")
+
+if user_input:
+    st.session_state.messages.append({"role": "user", "content": user_input})
     
-    return render_template("index.html", messages=messages)
-
-if __name__ == "__main__":
-    app.run(debug=True)
+    with st.spinner("Trinh đang trả lời..."):
+        try:
+            response = openai.ChatCompletion.create(
+                model="gpt-3.5-turbo",
+                messages=st.session_state.messages
+            )
+            reply = response["choices"][0]["message"]["content"]
+            st.session_state.messages.append({"role": "assistant", "content": reply})
+            st.experimental_rerun()
+        except Exception as e:
+            st.error(f"Đã có lỗi xảy ra: {e}")
