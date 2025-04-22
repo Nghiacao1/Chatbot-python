@@ -54,10 +54,10 @@ if user_input:
                 # messages=[m for m in st.session_state.messages if m["role"] != "system"]
                 prompt="Bạn là một trợ lý AI thông minh. Chào bạn!",  # Tham số prompt
                 max_tokens=150,  # Số lượng token tối đa (có thể thêm các tham số khác nếu cần)
-                headers: {
-            'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
-            'HTTP-Referer': 'https://localhost',  // hoặc domain của bạn
-            'Content-Type': 'application/json',
+                headers= {
+            'Authorization'= `Bearer ${process.env.OPENROUTER_API_KEY}`,
+            'HTTP-Referer'= 'https://localhost',  // hoặc domain của bạn
+            'Content-Type'= 'application/json',
           }          
             )
             reply = response["choices"][0]["message"]["content"]
