@@ -9,7 +9,7 @@ load_dotenv()
 openai.api_key = os.getenv("OPENROUTER_API_KEY")
 
 if openai.api_key is None:
-    raise ValueError("API Key chưa được thiết lập! Vui lòng thêm OPENAI_API_KEY vào tệp .env.")
+    raise ValueError("Không thể tìm thấy API Key trong .env!")
 # Set page config
 st.set_page_config(page_title="Trợ lý AI", layout="centered")
 
