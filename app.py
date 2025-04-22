@@ -49,7 +49,7 @@ if user_input:
     st.session_state.messages.append({"role": "user", "content": user_input})
     with st.spinner("Đợi Trinh trả lời..."):
         try:
-            response = openai.completions.create(
+            response = openai.ChatCompletion.create(
                 model="gpt-3.5-turbo",
                 # messages=[m for m in st.session_state.messages if m["role"] != "system"]
                 prompt="Bạn là một trợ lý AI thông minh. Chào bạn!",  # Tham số prompt
