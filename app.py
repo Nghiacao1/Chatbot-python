@@ -8,7 +8,7 @@ with open("static/style.css") as f:
 
 # Tải template
 def load_template(chat_html):
-    with open("templates/chat_ui.html", "r") as f:
+    with open("templates/index.html", "r") as f:
         html_template = f.read()
         return html_template.replace("{{ chat_messages }}", chat_html)
 
