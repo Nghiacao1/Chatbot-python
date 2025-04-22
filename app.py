@@ -56,9 +56,9 @@ if user_input:
                 max_tokens=150  # Số lượng token tối đa (có thể thêm các tham số khác nếu cần)
             )
             reply = response["choices"][0]["message"]["content"]
-            st.session_state.messages.append({"role": "assistant", "content": reply})
-            st.experimental_rerun()
-               st.write(response.choices[0].text.strip())
+            # st.session_state.messages.append({"role": "assistant", "content": reply})
+            # st.experimental_rerun()
+           st.write(response.choices[0].text.strip())
 except openai.error.AuthenticationError as e:
     st.error(f"Lỗi xác thực API: {e}")
 except openai.error.OpenAIError as e:
