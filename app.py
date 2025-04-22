@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Config
-openai.api_key = "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"
+openai.api_key = os.getenv("OPENROUTER_API_KEY")
 
 if openai.api_key is None:
     raise ValueError("Không thể tìm thấy API Key trong .env!")
