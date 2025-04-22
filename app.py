@@ -56,7 +56,7 @@ if user_input:
                 max_tokens=150,  # Số lượng token tối đa (có thể thêm các tham số khác nếu cần)
                 headers= {
                     'HTTP-Referer': 'https://localhost', 
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json'
           }          
             )
             reply = response["choices"][0]["message"]["content"]
