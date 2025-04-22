@@ -55,7 +55,7 @@ if user_input:
                 max_tokens=150  # Số lượng token tối đa (có thể thêm các tham số khác nếu cần)
             )
             st.write(response) 
-            reply = response["choices"][0]["message"]["content"]
+            reply = response["choices"][0]["text"]["content"]
             st.session_state.messages.append({"role": "assistant", "content": reply})
             st.experimental_rerun()
         except Exception as e:
