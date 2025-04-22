@@ -79,6 +79,7 @@
     background-color: var(--user-msg-bg);
     border-radius: 30px;
     overflow: hidden;
+    color: white;
   }
   
   .input-form input[type="text"] {
