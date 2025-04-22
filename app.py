@@ -8,7 +8,7 @@ openai.api_key = st.secrets.get("OPENROUTER_API_KEY", os.getenv("OPENROUTER_API_
 st.set_page_config(page_title="Trợ lý AI", layout="centered")
 
 # Load CSS
-with open("style.css") as f:
+with open("static/style.css") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
 # Header
