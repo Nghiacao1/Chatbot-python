@@ -51,6 +51,8 @@ if user_input:
             response = openai.completions.create(
                 model="gpt-3.5-turbo",
                 messages=[m for m in st.session_state.messages if m["role"] != "system"]
+                prompt="Bạn là một trợ lý AI thông minh. Chào bạn!",  # Tham số prompt
+                max_tokens=150  # Số lượng token tối đa (có thể thêm các tham số khác nếu cần)
             )
             reply = response["choices"][0]["message"]["content"]
             st.session_state.messages.append({"role": "assistant", "content": reply})
