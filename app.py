@@ -71,7 +71,7 @@ if user_input and user_input != st.session_state.last_input:
             st.session_state.messages.append({"role": "assistant", "content": reply})
 
             # Sau khi nhận được phản hồi:
-            st.session_state.last_input = user_input
+            # st.session_state.last_input = user_input
             st.session_state.reset_input = True
             user_input = st.text_input("Sếp nhập nội dung cần trao đổi ở đây nhé?",
                            placeholder="Nhập nội dung...",
