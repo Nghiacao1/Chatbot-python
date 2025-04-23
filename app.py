@@ -5,31 +5,30 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# Config
+# Cấu hình API từ secrets
 openai.api_key = st.secrets["OPENROUTER_API_KEY"]
-openai.api_base = "https://openrouter.ai/api/v1"
+openai.api_base = "https://openrouter.ai/api/v1"  # Bắt buộc cho OpenRouter
 
-
-if openai.api_key is None:
-    raise ValueError("Không thể tìm thấy API Key trong .env!")
-
-# Set page config
+# Cấu hình trang
 st.set_page_config(page_title="Trợ lý AI", layout="centered")
 
-# Load CSS
-with open("static/style.css") as f:
-    st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+# Load CSS nếu có
+try:
+    with open("static/style.css") as f:
+        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+except FileNotFoundError:
+    pass
 
 # Header
 st.markdown("<h1 class='title'>🧠 Anh Lập Trình - Trợ Lý AI</h1>", unsafe_allow_html=True)
 
-# Init message history
+# Khởi tạo lịch sử tin nhắn
 if "messages" not in st.session_state:
     st.session_state.messages = [
         {"role": "system", "content": "🤖 Chào sếp! Tôi là Trình, trợ lý AI của bạn. Hãy bắt đầu trò chuyện nhé!"}
     ]
 
-# Render chat
+# Hiển thị lịch sử chat
 chat_html = '<div class="chat-box">'
 for m in st.session_state.messages:
     role = m["role"]
@@ -44,16 +43,16 @@ chat_html += '</div>'
 st.markdown(chat_html, unsafe_allow_html=True)
 
 # Input box
-user_input = st.text_input("Sếp nhập nội dung cần trao đổi ở đây nhé?", placeholder="Sếp nhập nội dung cần trao đổi ở đây nhé?", label_visibility="collapsed")
+user_input = st.text_input("Sếp nhập nội dung cần trao đổi ở đây nhé?", placeholder="Nhập nội dung...", label_visibility="collapsed")
 
-# Process input
+# Xử lý đầu vào
 if user_input:
     st.session_state.messages.append({"role": "user", "content": user_input})
     with st.spinner("Đợi Trình trả lời..."):
         try:
-            response = openai.completions.create(
-                model="openai/gpt-3.5-turbo",
-                prompt="Bạn là một trợ lý AI thông minh. Chào bạn!",
+            response = openai.ChatCompletion.create(
+                model="openai/gpt-3.5-turbo",  # Ghi đúng format OpenRouter
+                messages=st.session_state.messages,
                 max_tokens=150
             )
             reply = response["choices"][0]["message"]["content"]
