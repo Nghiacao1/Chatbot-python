@@ -11,20 +11,32 @@ openai.api_base = "https://openrouter.ai/api/v1"
 
 st.set_page_config(page_title="Trợ lý AI", layout="centered")
 
-# Load CSS custom
-with open("static/style.css") as f:
-    st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+# ======== RESET INPUT SỚM TRƯỚC KHI TẠO WIDGET =========
+if st.session_state.get("reset_input", False):
+    st.session_state.pop("temp_input", None)
+    st.session_state["reset_input"] = False
+    st.experimental_rerun()  # rerun ngay để render lại text_input sạch
 
-# Header
-st.markdown("<h1 class='title'>🧠 Anh Lập Trình - Trợ Lý AI</h1>", unsafe_allow_html=True)
-
-# Lưu lịch sử chat
+# ======== KHỞI TẠO BIẾN =========
 if "messages" not in st.session_state:
     st.session_state.messages = [
         {"role": "system", "content": "🤖 Chào sếp! Tôi là Trình, trợ lý AI của bạn. Hãy bắt đầu trò chuyện nhé!"}
     ]
 
-# Hiển thị lịch sử
+if "last_input" not in st.session_state:
+    st.session_state.last_input = ""
+
+# ======== Load CSS =========
+try:
+    with open("static/style.css") as f:
+        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+except FileNotFoundError:
+    pass
+
+# ======== Header =========
+st.markdown("<h1 class='title'>🧠 Anh Lập Trình - Trợ Lý AI</h1>", unsafe_allow_html=True)
+
+# ======== Hiển thị chat =========
 chat_html = '<div class="chat-box">'
 for m in st.session_state.messages:
     role, content = m["role"], m["content"]
@@ -37,28 +49,13 @@ for m in st.session_state.messages:
 chat_html += '</div>'
 st.markdown(chat_html, unsafe_allow_html=True)
 
-# ======== RESET TRƯỚC KHI RENDER WIDGET =========
-if "reset_input" in st.session_state and st.session_state.reset_input:
-    del st.session_state["temp_input"]
-    st.session_state.reset_input = False
-    st.rerun()
-
-# ======== KHỞI TẠO BAN ĐẦU =========
-if "messages" not in st.session_state:
-    st.session_state.messages = [
-        {"role": "system", "content": "🤖 Chào sếp! Tôi là Trình, trợ lý AI của bạn. Hãy bắt đầu trò chuyện nhé!"}
-    ]
-
-if "last_input" not in st.session_state:
-    st.session_state.last_input = ""
-
-# ======== INPUT BOX =========
+# ======== Input =========
 user_input = st.text_input("Sếp nhập nội dung cần trao đổi ở đây nhé?",
                            placeholder="Nhập nội dung...",
                            label_visibility="collapsed",
                            key="temp_input")
 
-# ======== XỬ LÝ GỬI =========
+# ======== Xử lý gửi =========
 if user_input and user_input != st.session_state.last_input:
     st.session_state.messages.append({"role": "user", "content": user_input})
 
@@ -72,15 +69,14 @@ if user_input and user_input != st.session_state.last_input:
             reply = response["choices"][0]["message"]["content"]
             st.session_state.messages.append({"role": "assistant", "content": reply})
 
-            # Đánh dấu đã gửi input này
+            # Cập nhật input & đặt cờ reset
             st.session_state.last_input = user_input
-
-            # Đặt cờ reset input
-            st.session_state.reset_input = True
+            st.session_state["reset_input"] = True
             st.rerun()
 
         except Exception as e:
             st.error(f"❌ Lỗi: {e}")
+
 
 
 
