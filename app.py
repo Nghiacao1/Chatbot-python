@@ -39,29 +39,28 @@ st.markdown(chat_html, unsafe_allow_html=True)
 
 with st.form(key="chat_form", clear_on_submit=True):
     col1, col2 = st.columns([5, 1])
-
     with col1:
         user_input = st.text_input("Sếp nhập nội dung cần trao đổi ở đây nhé?",
                                    placeholder="Nhập nội dung...",
                                    label_visibility="collapsed")
-
     with col2:
         submitted = st.form_submit_button("📨")
 
-# Khi nhấn Enter hoặc nút gửi
-if submitted and user_input:
-    st.session_state.messages.append({"role": "user", "content": user_input})
+    # ✅ Xử lý logic ngay trong form block
+    if submitted and user_input:
+        st.session_state.messages.append({"role": "user", "content": user_input})
 
-    with st.spinner("Đợi Trình trả lời..."):
-        try:
-            response = openai.ChatCompletion.create(
-                model="openai/gpt-3.5-turbo",
-                messages=st.session_state.messages,
-                max_tokens=150
-            )
-            reply = response["choices"][0]["message"]["content"]
-            st.session_state.messages.append({"role": "assistant", "content": reply})
-        except Exception as e:
-            st.error(f"❌ Lỗi: {e}")
+        with st.spinner("Đợi Trình trả lời..."):
+            try:
+                response = openai.ChatCompletion.create(
+                    model="openai/gpt-3.5-turbo",
+                    messages=st.session_state.messages,
+                    max_tokens=150
+                )
+                reply = response["choices"][0]["message"]["content"]
+                st.session_state.messages.append({"role": "assistant", "content": reply})
+            except Exception as e:
+                st.error(f"❌ Lỗi: {e}")
+
 
 
