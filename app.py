@@ -24,12 +24,26 @@ if "messages" not in st.session_state:
         {"role": "system", "content": "🤖 Chào sếp! Tôi là Trình, trợ lý AI của bạn. Hãy bắt đầu trò chuyện nhé!"}
     ]
 
+# Hiển thị lịch sử
+chat_html = '<div class="chat-box">'
+for m in st.session_state.messages:
+    role, content = m["role"], m["content"]
+    if role == "user":
+        chat_html += f'<div class="message user">👤 Bạn: {content}</div>'
+    elif role == "assistant":
+        chat_html += f'<div class="message assistant">🤖: {content}</div>'
+    else:
+        chat_html += f'<div class="message system">{content}</div>'
+chat_html += '</div>'
+st.markdown(chat_html, unsafe_allow_html=True)
+
 # Xoá input nếu cần reset
 if st.session_state.get("reset_input", False):
     st.session_state.pop("temp_input", None)
     st.session_state["reset_input"] = False
 
-# Khởi tạo lịch sử tin nhắn
+
+# ======== KHỞI TẠO BAN ĐẦU =========
 if "messages" not in st.session_state:
     st.session_state.messages = [
         {"role": "system", "content": "🤖 Chào sếp! Tôi là Trình, trợ lý AI của bạn. Hãy bắt đầu trò chuyện nhé!"}
@@ -65,6 +79,7 @@ if user_input and user_input != st.session_state.last_input:
 
         except Exception as e:
             st.error(f"❌ Lỗi: {e}")
+
 
 
 
