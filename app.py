@@ -62,6 +62,6 @@ if user_input:
             # Chỉ thêm phản hồi của AI vào lịch sử chat
             st.session_state.messages.append({"role": "assistant", "content": reply})
             # Làm mới trang để cập nhật hội thoại
-            st.rerun()
+            # st.rerun()
         except Exception as e:
             st.error(f"❌ Lỗi: {e}")
