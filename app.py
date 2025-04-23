@@ -73,10 +73,6 @@ if user_input and user_input != st.session_state.last_input:
             # Sau khi nhận được phản hồi:
             # st.session_state.last_input = user_input
             st.session_state.reset_input = True
-            user_input = st.text_input("Sếp nhập nội dung cần trao đổi ở đây nhé?",
-                           placeholder="Nhập nội dung...",
-                           label_visibility="collapsed",
-                           key="temp_input")
             st.rerun()  # rerun để trigger đoạn xử lý ở đầu -> xóa input
 
         except Exception as e:
