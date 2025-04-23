@@ -52,7 +52,7 @@ if user_input:
             response = openai.completions.create(
                 model="gpt-3.5-turbo",
                 messages=st.session_state.messages,
-                 prompt="Bạn là một trợ lý AI thông minh. Chào bạn!",
+                prompt="Bạn là một trợ lý AI thông minh. Chào bạn!",
                 max_tokens=150
             )
             reply = response["choices"][0]["message"]["content"]
