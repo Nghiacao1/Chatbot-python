@@ -48,18 +48,15 @@ body {
   border-radius: 8px;
   line-height: 1.4;
   word-wrap: break-word;
-  background-color: var(--bg-color);
   color: var(--text-color);
 }
 
 .message.user {
   align-self: flex-end;
-  background-color: var(--bg-color);
 }
 
 .message.assistant {
   align-self: flex-start;
-  background-color: var(--bg-color);
 }
 
 /* === INPUT STYLE MỚI === */
@@ -150,4 +147,35 @@ body {
 
 .send-btn:hover {
     transform: translateY(-50%) scale(1.1);
+}
+.input-form {
+  display: flex;
+  align-items: center;
+  background-color: #2c2c2c;
+  border-radius: 30px;
+  padding: 5px 10px;
+  margin-top: 10px;
+}
+
+.input-form input[type="text"] {
+  flex-grow: 1;
+  padding: 12px 15px;
+  border: none;
+  border-radius: 30px;
+  background-color: transparent;
+  color: white;
+  font-size: 16px;
+  outline: none;
+}
+
+.input-form input::placeholder {
+  color: #999;
+}
+
+.input-form button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: white;
+  cursor: pointer;
 }
