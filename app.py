@@ -41,50 +41,6 @@ for m in st.session_state.messages:
 chat_html += '</div>'
 st.markdown(chat_html, unsafe_allow_html=True)
 
-# Inject custom CSS
-st.markdown("""
-<style>
-.chat-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
-}
-
-.chat-box {
-    position: relative;
-    width: 100%;
-    max-width: 600px;
-}
-
-input.custom-input {
-    width: 100%;
-    padding: 0.75rem 3rem 0.75rem 1rem;
-    font-size: 1rem;
-    border: 1.5px solid #e63946;
-    border-radius: 40px;
-    background-color: #1e1e1e;
-    color: white;
-    outline: none;
-}
-
-button.custom-send {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    border: none;
-    background: none;
-    color: #ccc;
-    font-size: 1.5rem;
-    cursor: pointer;
-}
-
-button.custom-send:hover {
-    color: white;
-}
-</style>
-""", unsafe_allow_html=True)
 
 # Chat form
 with st.form("chat_form", clear_on_submit=True):
