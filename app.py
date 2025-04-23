@@ -52,4 +52,4 @@ if user_input:
 
     # 💡 Tạo key mới để input trống lần sau
     st.session_state.input_key = str(uuid.uuid4())
-    st.rerun()
+    st.experimental_rerun()
