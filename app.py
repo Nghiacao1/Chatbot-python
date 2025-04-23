@@ -7,7 +7,7 @@ load_dotenv()
 
 # Cấu hình API từ secrets
 openai.api_key = st.secrets["OPENROUTER_API_KEY"]
-openai.api_base = "https://openrouter.ai/api/v1"  # Bắt buộc cho OpenRouter
+openai.api_base = "https://openrouter.ai/api/v1"
 
 # Cấu hình trang
 st.set_page_config(page_title="Trợ lý AI", layout="centered")
@@ -42,14 +42,17 @@ for m in st.session_state.messages:
 chat_html += '</div>'
 st.markdown(chat_html, unsafe_allow_html=True)
 
-# Input box
-user_input = st.text_input("Sếp nhập nội dung cần trao đổi ở đây nhé?", 
-                           placeholder="Nhập nội dung...", 
-                           label_visibility="collapsed",
-                           key="user_input")
+# Ô nhập và nút gửi
+with st.form("chat_form", clear_on_submit=True):
+    user_input = st.text_input(
+        "Sếp nhập nội dung cần trao đổi ở đây nhé?",
+        placeholder="Nhập nội dung...",
+        label_visibility="collapsed"
+    )
+    submitted = st.form_submit_button("Gửi")
 
 # Xử lý đầu vào
-if user_input:
+if submitted and user_input:
     st.session_state.messages.append({"role": "user", "content": user_input})
 
     with st.spinner("Đợi Trình trả lời..."):
