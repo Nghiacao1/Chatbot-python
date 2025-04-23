@@ -41,7 +41,7 @@ st.markdown(chat_html, unsafe_allow_html=True)
 if "reset_input" in st.session_state and st.session_state.reset_input:
     del st.session_state["temp_input"]
     st.session_state.reset_input = False
-    st.experimental_rerun()
+    st.rerun()
 
 # ======== KHỞI TẠO BAN ĐẦU =========
 if "messages" not in st.session_state:
