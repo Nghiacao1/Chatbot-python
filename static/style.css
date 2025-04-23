@@ -1,29 +1,15 @@
 :root {
-  --bg-color: #121212;            /* màu nền chung */
-  --text-color: #ffffff;          /* màu chữ */
-  --chat-bg: #121212;             /* cũng như bg */
-  --user-msg-bg: #121212;         /* 💬 đồng màu nền cho user */
-  --assistant-msg-bg: #121212;    /* 💬 đồng màu nền cho bot */
+  --bg-color: #121212;
+  --text-color: #ffffff;
+  --chat-bg: #1f1f1f;
+  --user-msg-bg: #000000;         /* 💬 nền đen cho người dùng */
+  --assistant-msg-bg: #000000;    /* 💬 nền đen cho trợ lý */
 }
-
-.message {
-  padding: 10px 15px;
-  border-radius: 8px;
-  color: var(--text-color);
-  box-shadow: none;
-  border: none;
-}
-
-.message.user,
-.message.assistant {
-  color: var(--text-color);
-}
-
 
 body {
   margin: 0;
   font-family: 'Inter', sans-serif;
-  background-color: var(--bg-color) !important;
+  background-color: var(--bg-color);
   color: var(--text-color);
   display: flex;
   justify-content: center;
@@ -55,6 +41,25 @@ body {
   display: flex;
   flex-direction: column;
   gap: 12px;
+}
+
+.message {
+  padding: 10px 15px;
+  border-radius: 8px;
+  line-height: 1.4;
+  word-wrap: break-word;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+.message.user {
+  align-self: flex-end;
+  background-color: var(--bg-color);
+}
+
+.message.assistant {
+  align-self: flex-start;
+  background-color: var(--bg-color);
 }
 
 /* === INPUT STYLE MỚI === */
