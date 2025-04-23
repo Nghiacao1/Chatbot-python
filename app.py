@@ -37,18 +37,17 @@ for m in st.session_state.messages:
 chat_html += '</div>'
 st.markdown(chat_html, unsafe_allow_html=True)
 
-with st.form(key="chat_form", clear_on_submit=True):
-    col1, col2 = st.columns([5, 1])
+col1, col2 = st.columns([5, 1])
+with col1:
+    user_input = st.text_input("Sếp nhập nội dung cần trao đổi ở đây nhé?", 
+                               placeholder="Nhập nội dung...", 
+                               label_visibility="collapsed", 
+                               key="input_text")
 
-    with col1:
-        user_input = st.text_input("Sếp nhập nội dung cần trao đổi ở đây nhé?", 
-                                   placeholder="Nhập nội dung...", 
-                                   label_visibility="collapsed")
+with col2:
+    send_clicked = st.button("📨", use_container_width=True)
 
-    with col2:
-        submitted = st.form_submit_button("📨")
-
-if submitted and user_input:
+if send_clicked and user_input:
     st.session_state.messages.append({"role": "user", "content": user_input})
 
     with st.spinner("Đợi Trình trả lời..."):
@@ -60,6 +59,8 @@ if submitted and user_input:
             )
             reply = response["choices"][0]["message"]["content"]
             st.session_state.messages.append({"role": "assistant", "content": reply})
+
+            # Trick để "reset" input: force rerun bằng cách dùng st.experimental_rerun()
             st.rerun()
         except Exception as e:
             st.error(f"❌ Lỗi: {e}")
