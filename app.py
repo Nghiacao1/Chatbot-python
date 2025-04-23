@@ -10,13 +10,13 @@ openai.api_key = st.secrets["OPENROUTER_API_KEY"]
 
 if openai.api_key is None:
     raise ValueError("Không thể tìm thấy API Key trong .env!")
+
 # Set page config
 st.set_page_config(page_title="Trợ lý AI", layout="centered")
 
 # Load CSS
 with open("static/style.css") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
-
 
 # Header
 st.markdown("<h1 class='title'>🧠 Anh Lập Trình - Trợ Lý AI</h1>", unsafe_allow_html=True)
@@ -47,14 +47,13 @@ user_input = st.text_input("Sếp nhập nội dung cần trao đổi ở đây 
 # Process input
 if user_input:
     st.session_state.messages.append({"role": "user", "content": user_input})
-    with st.spinner("Đợi Trinh trả lời..."):
+    with st.spinner("Đợi Trình trả lời..."):
         try:
-             response = openai.completions.create(
+            response = openai.completions.create(
                 model="gpt-3.5-turbo",
-                prompt="Bạn là một trợ lý AI thông minh. Chào bạn!",  # Tham số prompt
-                max_tokens=150  # Số lượng token tối đa (có thể thêm các tham số khác nếu cần)
-            ) 
-            reply = response["choices"][0]["text"]["content"]
+                messages=st.session_state.messages
+            )
+            reply = response["choices"][0]["message"]["content"]
             st.session_state.messages.append({"role": "assistant", "content": reply})
             st.experimental_rerun()
         except Exception as e:
