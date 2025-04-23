@@ -37,14 +37,20 @@ for m in st.session_state.messages:
 chat_html += '</div>'
 st.markdown(chat_html, unsafe_allow_html=True)
 
-# Tạo input box
+# Khởi tạo biến tạm nếu chưa có
+if "last_input" not in st.session_state:
+    st.session_state.last_input = ""
+if "temp_input" not in st.session_state:
+    st.session_state.temp_input = ""
+
+# Ô nhập liệu
 user_input = st.text_input("Sếp nhập nội dung cần trao đổi ở đây nhé?",
                            placeholder="Nhập nội dung...",
                            label_visibility="collapsed",
-                           key="user_input")
+                           key="temp_input")
 
-# Kiểm tra nếu có nội dung và chưa gửi trong lần rerun hiện tại
-if user_input and "last_input" in st.session_state and user_input != st.session_state.last_input:
+# Nếu có input mới và khác với lần trước
+if user_input and user_input != st.session_state.last_input:
     st.session_state.messages.append({"role": "user", "content": user_input})
 
     with st.spinner("Đợi Trình trả lời..."):
@@ -57,21 +63,15 @@ if user_input and "last_input" in st.session_state and user_input != st.session_
             reply = response["choices"][0]["message"]["content"]
             st.session_state.messages.append({"role": "assistant", "content": reply})
 
-            # Lưu input hiện tại để tránh gửi lặp khi rerun
+            # Cập nhật input cuối cùng để tránh gửi lại
             st.session_state.last_input = user_input
 
-            # Xóa nội dung ô input (reset key này)
-            st.session_state.user_input = ""
-
-            # Rerun để cập nhật UI
-            st.rerun()
+            # Reset input bằng cách gán rỗng key temp_input rồi rerun
+            st.session_state.temp_input = ""
+            st.experimental_rerun()
 
         except Exception as e:
             st.error(f"❌ Lỗi: {e}")
-
-# Nếu chưa có last_input thì khởi tạo
-if "last_input" not in st.session_state:
-    st.session_state.last_input = ""
 
 
 
