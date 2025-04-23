@@ -46,12 +46,16 @@ chat_html += '</div>'
 st.markdown(chat_html, unsafe_allow_html=True)
 
 # === Input & xử lý gửi ===
-user_input = st.text_input("Nhập nội dung...", 
-                           key=st.session_state.input_key,
-                           placeholder="Nhập gì đó...", 
-                           label_visibility="collapsed")
+with st.form("custom_form", clear_on_submit=True):
+    user_input = st.text_input(
+        "Nhập tin nhắn",
+        placeholder="Sếp nhập nội dung cần trao đổi ở đây nhé?",
+        label_visibility="collapsed"
+    )
+    st.markdown('<button type="submit" class="send-btn">➤</button>', unsafe_allow_html=True)
+    submitted = st.form_submit_button("")
 
-if user_input:
+if submitted and user_input:
     st.session_state.messages.append({"role": "user", "content": user_input})
     with st.spinner("Đợi Trình trả lời..."):
         try:
