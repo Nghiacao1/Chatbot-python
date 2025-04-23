@@ -47,17 +47,21 @@ user_input = st.text_input("Sếp nhập nội dung cần trao đổi ở đây 
 
 # Xử lý đầu vào
 if user_input:
-    st.session_state.messages.append({"role": "user", "content": user_input})  # Lưu tin nhắn người dùng
+    # Lưu tin nhắn người dùng vào session_state
+    st.session_state.messages.append({"role": "user", "content": user_input})
     with st.spinner("Đợi Trình trả lời..."):
         try:
-            # Gửi toàn bộ lịch sử tin nhắn vào API
+            # Gửi toàn bộ lịch sử tin nhắn vào API (bao gồm cả tin nhắn người dùng)
             response = openai.ChatCompletion.create(
                 model="openai/gpt-3.5-turbo",  # Ghi đúng format OpenRouter
                 messages=st.session_state.messages,  # Gửi toàn bộ lịch sử hội thoại
                 max_tokens=150  # Điều chỉnh số token nếu cần
             )
+            # Lấy phản hồi của AI
             reply = response["choices"][0]["message"]["content"]
-            st.session_state.messages.append({"role": "assistant", "content": reply})  # Chỉ thêm phản hồi của AI
-            st.rerun()  # Làm mới trang để cập nhật hội thoại (có thể dùng st.rerun() nếu phiên bản Streamlit mới)
+            # Chỉ thêm phản hồi của AI vào lịch sử chat
+            st.session_state.messages.append({"role": "assistant", "content": reply})
+            # Làm mới trang để cập nhật hội thoại
+            st.rerun()
         except Exception as e:
             st.error(f"❌ Lỗi: {e}")
