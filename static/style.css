@@ -117,3 +117,35 @@
       padding: 12px;
     }
   }
+  .input-container {
+    position: relative;
+    width: 100%;
+}
+
+.input-text {
+    width: 100%;
+    padding: 12px 50px 12px 15px;
+    border-radius: 10px;
+    border: none;
+    background-color: #333;
+    color: white;
+    font-size: 16px;
+}
+
+.send-btn {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: linear-gradient(90deg, #4facfe, #00f2fe);
+    border: none;
+    border-radius: 8px;
+    padding: 6px 10px;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.send-btn:hover {
+    transform: translateY(-50%) scale(1.1);
+}

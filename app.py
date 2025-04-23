@@ -5,34 +5,29 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# Cấu hình API từ secrets
+# Cấu hình API
 openai.api_key = st.secrets["OPENROUTER_API_KEY"]
 openai.api_base = "https://openrouter.ai/api/v1"
 
-# Cấu hình trang
 st.set_page_config(page_title="Trợ lý AI", layout="centered")
 
-# Load CSS nếu có
-try:
-    with open("static/style.css") as f:
-        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
-except FileNotFoundError:
-    pass
+# Load CSS custom
+with open("static/style.css") as f:
+    st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
 # Header
 st.markdown("<h1 class='title'>🧠 Anh Lập Trình - Trợ Lý AI</h1>", unsafe_allow_html=True)
 
-# Khởi tạo lịch sử tin nhắn
+# Lưu lịch sử chat
 if "messages" not in st.session_state:
     st.session_state.messages = [
         {"role": "system", "content": "🤖 Chào sếp! Tôi là Trình, trợ lý AI của bạn. Hãy bắt đầu trò chuyện nhé!"}
     ]
 
-# Hiển thị lịch sử chat
+# Hiển thị lịch sử
 chat_html = '<div class="chat-box">'
 for m in st.session_state.messages:
-    role = m["role"]
-    content = m["content"]
+    role, content = m["role"], m["content"]
     if role == "user":
         chat_html += f'<div class="message user">👤 Bạn: {content}</div>'
     elif role == "assistant":
@@ -42,26 +37,23 @@ for m in st.session_state.messages:
 chat_html += '</div>'
 st.markdown(chat_html, unsafe_allow_html=True)
 
+# Form với input và nút gửi trong cùng một khung
 with st.form("chat_form", clear_on_submit=True):
-    col1, col2 = st.columns([6, 1])
+    st.markdown("""
+    <div class="input-container">
+        <input name="chat_input" placeholder="Nhập nội dung..." class="input-text" />
+        <button class="send-btn" type="submit">📨</button>
+    </div>
+    """, unsafe_allow_html=True)
     
-    with col1:
-        user_input = st.text_input(
-            "",
-            placeholder="Nhập nội dung...",
-            label_visibility="collapsed",
-            key="chat_input"
-        )
+    submitted = st.form_submit_button(label="Hidden Gửi")  # dùng để trigger form
 
-    with col2:
-        submitted = st.form_submit_button(
-            "📨 Gửi"
-        )
+    # Mẹo lấy giá trị input (dùng workaround JS/script nâng cao nếu cần)
+    user_input = st.query_params.get("chat_input", "")
 
-# Xử lý đầu vào
+# Xử lý
 if submitted and user_input:
     st.session_state.messages.append({"role": "user", "content": user_input})
-
     with st.spinner("Đợi Trình trả lời..."):
         try:
             response = openai.ChatCompletion.create(
@@ -71,7 +63,5 @@ if submitted and user_input:
             )
             reply = response["choices"][0]["message"]["content"]
             st.session_state.messages.append({"role": "assistant", "content": reply})
-
-            st.rerun()  # Làm mới giao diện, không lỗi key
         except Exception as e:
             st.error(f"❌ Lỗi: {e}")
