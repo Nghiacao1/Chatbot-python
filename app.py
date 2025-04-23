@@ -58,6 +58,6 @@ if user_input:
             )
             reply = response["choices"][0]["message"]["content"]
             st.session_state.messages.append({"role": "assistant", "content": reply})  # Chỉ thêm phản hồi của AI
-            st.experimental_rerun()  # Làm mới trang để cập nhật hội thoại (có thể dùng st.rerun() nếu phiên bản Streamlit mới)
+            st.rerun()  # Làm mới trang để cập nhật hội thoại (có thể dùng st.rerun() nếu phiên bản Streamlit mới)
         except Exception as e:
             st.error(f"❌ Lỗi: {e}")
