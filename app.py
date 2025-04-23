@@ -50,26 +50,22 @@ user_input = st.text_input("Sếp nhập nội dung cần trao đổi ở đây 
 
 
 # Xử lý đầu vào
-if user_input and st.session_state.get("input_submitted", False) is False:
-    # Đánh dấu đã xử lý để tránh lặp
-    st.session_state.input_submitted = True
+if st.button("Gửi"):
+    if user_input:
+        st.session_state.messages.append({"role": "user", "content": user_input})
 
-    # Lưu tin nhắn người dùng
-    st.session_state.messages.append({"role": "user", "content": user_input})
+        with st.spinner("Đợi Trình trả lời..."):
+            try:
+                response = openai.ChatCompletion.create(
+                    model="openai/gpt-3.5-turbo",
+                    messages=st.session_state.messages,
+                    max_tokens=150
+                )
 
-    with st.spinner("Đợi Trình trả lời..."):
-        try:
-            response = openai.ChatCompletion.create(
-                model="openai/gpt-3.5-turbo",
-                messages=st.session_state.messages,
-                max_tokens=150
-            )
-            reply = response["choices"][0]["message"]["content"]
-            st.session_state.messages.append({"role": "assistant", "content": reply})
+                reply = response["choices"][0]["message"]["content"]
+                st.session_state.messages.append({"role": "assistant", "content": reply})
 
-            # Xóa nội dung input và đánh dấu lại để có thể xử lý input mới
-            st.session_state.input_box = ""  # reset nội dung input
-            st.session_state.input_submitted = False  # cho phép nhập mới
-            st.rerun()
-        except Exception as e:
-            st.error(f"❌ Lỗi: {e}")
+                # Reset nội dung ô input
+                st.session_state.input_box = ""
+            except Exception as e:
+                st.error(f"❌ Lỗi: {e}")
