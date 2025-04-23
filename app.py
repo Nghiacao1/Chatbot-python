@@ -50,8 +50,7 @@ user_input = st.text_input("Sếp nhập nội dung cần trao đổi ở đây 
 
 
 # Xử lý đầu vào
-if st.button("Gửi"):
-    if user_input:
+if user_input:
         st.session_state.messages.append({"role": "user", "content": user_input})
 
         with st.spinner("Đợi Trình trả lời..."):
