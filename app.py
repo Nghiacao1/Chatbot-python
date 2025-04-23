@@ -11,11 +11,12 @@ openai.api_base = "https://openrouter.ai/api/v1"
 
 st.set_page_config(page_title="Trợ lý AI", layout="centered")
 
-# ======== RESET INPUT SỚM TRƯỚC KHI TẠO WIDGET =========
+# ======== RESET INPUT SỚM TRƯỚC KHI RENDER =========
 if st.session_state.get("reset_input", False):
-    st.session_state.pop("temp_input", None)
+    st.session_state.pop("temp_input", None)  # xóa input key
     st.session_state["reset_input"] = False
-    st.experimental_rerun()  # rerun ngay để render lại text_input sạch
+    st.rerun()  # rerun lại, input sẽ được khởi tạo mới tinh
+
 
 # ======== KHỞI TẠO BIẾN =========
 if "messages" not in st.session_state:
@@ -69,10 +70,10 @@ if user_input and user_input != st.session_state.last_input:
             reply = response["choices"][0]["message"]["content"]
             st.session_state.messages.append({"role": "assistant", "content": reply})
 
-            # Cập nhật input & đặt cờ reset
+            # Sau khi nhận được phản hồi:
             st.session_state.last_input = user_input
-            st.session_state["reset_input"] = True
-            st.rerun()
+            st.session_state.reset_input = True
+            st.rerun()  # rerun để trigger đoạn xử lý ở đầu -> xóa input
 
         except Exception as e:
             st.error(f"❌ Lỗi: {e}")
