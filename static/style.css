@@ -2,8 +2,8 @@
   --bg-color: #121212;
   --text-color: #ffffff;
   --chat-bg: #1f1f1f;
-  --user-msg-bg: #000000;
-  --assistant-msg-bg: #000000;
+  --user-msg-bg: #000000;         /* 💬 nền đen cho người dùng */
+  --assistant-msg-bg: #000000;    /* 💬 nền đen cho trợ lý */
 }
 
 body {
@@ -11,14 +11,33 @@ body {
   font-family: 'Inter', sans-serif;
   background-color: var(--bg-color);
   color: var(--text-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
-/* === Chatbox layout === */
+.container {
+  width: 100%;
+  max-width: 600px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: var(--text-color);
+}
+
 .chat-box {
   background-color: transparent;
   padding: 15px;
   height: 60vh;
   overflow-y: auto;
+  margin-bottom: 15px;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -34,74 +53,129 @@ body {
 
 .message.user {
   align-self: flex-end;
-  background-color: var(--user-msg-bg);
 }
 
 .message.assistant {
   align-self: flex-start;
-  background-color: var(--assistant-msg-bg);
 }
 
-/* === Form container (override cho st.form) === */
-div[data-testid="stForm"] {
+/* === INPUT STYLE MỚI === */
+.input-container {
+  position: relative;
+  width: 100%;
+}
+
+.input-text {
+  width: 100%;
+  padding: 12px 50px 12px 15px;
+  border-radius: 30px;
+  border: none;
+  background-color: #000;
+  color: white;
+  font-size: 16px;
+}
+
+.input-text::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* === ICON GỬI NÚT === */
+.send-btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.send-btn img {
+  width: 26px;
+  height: 26px;
+  filter: brightness(0) invert(1); /* trắng icon nếu là PNG đen */
+  transition: transform 0.2s ease;
+}
+
+.send-btn:hover img {
+  transform: scale(1.15);
+}
+
+  /* Responsive mobile */
+@media (max-width: 480px) {
+    .chat-box {
+      height: 50vh;
+    }
+  
+    .title {
+      font-size: 20px;
+    }
+  
+    .input-form input {
+      padding: 12px;
+    }
+  }
+  .input-container {
+    position: relative;
+    width: 100%;
+}
+
+.input-text {
+    width: 100%;
+    padding: 12px 50px 12px 15px;
+    border-radius: 10px;
+    border: none;
+    background-color: #333;
+    color: white;
+    font-size: 16px;
+}
+
+.send-btn {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: linear-gradient(90deg, #4facfe, #00f2fe);
+    border: none;
+    border-radius: 8px;
+    padding: 6px 10px;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.send-btn:hover {
+    transform: translateY(-50%) scale(1.1);
+}
+.input-form {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1rem;
   background-color: #2c2c2c;
   border-radius: 30px;
+  padding: 5px 10px;
   margin-top: 10px;
 }
 
-/* Input trong form */
-div[data-testid="stForm"] input[type="text"] {
+.input-form input[type="text"] {
   flex-grow: 1;
-  padding: 0.75rem 1rem;
-  background-color: #1e1e1e;
-  color: white;
+  padding: 12px 15px;
   border: none;
   border-radius: 30px;
-  font-size: 1rem;
+  background-color: transparent;
+  color: white;
+  font-size: 16px;
   outline: none;
 }
 
-div[data-testid="stForm"] input::placeholder {
+.input-form input::placeholder {
   color: #999;
 }
 
-/* Nút gửi ➤ (áp dụng cho st.form_submit_button) */
-button[kind="primary"] {
-  background-color: #ff0077;
-  color: white;
+.input-form button {
+  background: none;
   border: none;
-  padding: 0.5rem 1rem;
-  font-size: 1.2rem;
-  border-radius: 30px;
+  font-size: 20px;
+  color: white;
   cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-button[kind="primary"]:hover {
-  background-color: #e6006f;
-}
-
-/* Responsive */
-@media (max-width: 480px) {
-  .chat-box {
-    height: 50vh;
-  }
-
-  .title {
-    font-size: 20px;
-  }
-
-  div[data-testid="stForm"] {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  button[kind="primary"] {
-    width: 100%;
-    margin-top: 10px;
-  }
 }
