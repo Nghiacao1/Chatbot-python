@@ -9,7 +9,7 @@ st.title("🔐 Kiểm tra OpenRouter API Key")
 
 if st.button("Gửi yêu cầu test"):
     try:
-        response = openai.completions.create(
+        response = openai.ChatCompletion.create(
             model="openai/gpt-3.5-turbo",
             prompt=f"Bạn là một trợ lý AI thông minh.",
             max_tokens=50
