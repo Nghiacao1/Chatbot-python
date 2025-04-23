@@ -9,21 +9,18 @@
 .message {
   padding: 10px 15px;
   border-radius: 8px;
-  line-height: 1.4;
-  word-wrap: break-word;
-  background-color: var(--bg-color); /* 💥 đồng màu nền */
+  background-color: var(--bg-color); /* Trùng hoàn toàn với nền */
+  color: var(--text-color);
+  box-shadow: none;
+  border: none;
+}
+
+.message.user,
+.message.assistant {
+  background-color: var(--bg-color); /* Chắc chắn đồng màu */
   color: var(--text-color);
 }
 
-.message.user {
-  align-self: flex-end;
-  background-color: var(--user-msg-bg);
-}
-
-.message.assistant {
-  align-self: flex-start;
-  background-color: var(--assistant-msg-bg);
-}
 
 body {
   margin: 0;
