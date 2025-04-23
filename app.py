@@ -43,7 +43,11 @@ chat_html += '</div>'
 st.markdown(chat_html, unsafe_allow_html=True)
 
 # Input box
-user_input = st.text_input("Sếp nhập nội dung cần trao đổi ở đây nhé?", placeholder="Nhập nội dung...", label_visibility="collapsed")
+user_input = st.text_input("Sếp nhập nội dung cần trao đổi ở đây nhé?", 
+                           placeholder="Nhập nội dung...", 
+                           label_visibility="collapsed",
+                           key="user_input")
+
 
 # Xử lý đầu vào
 if user_input:
@@ -64,6 +68,7 @@ if user_input:
 
             # Chỉ thêm phản hồi của AI vào lịch sử chat
             st.session_state.messages.append({"role": "assistant", "content": reply})
+            st.session_state["user_input"] = ""  # Reset để tránh lặp
 
             # Làm mới trang để cập nhật hội thoại
             st.rerun()  # Đảm bảo trang được làm mới sau khi cập nhật lịch sử chat
