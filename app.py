@@ -37,23 +37,19 @@ for m in st.session_state.messages:
 chat_html += '</div>'
 st.markdown(chat_html, unsafe_allow_html=True)
 
-# Form với input và nút gửi trong cùng một khung
-with st.form("chat_form", clear_on_submit=True):
-    st.markdown("""
-    <div class="input-container">
-        <input name="chat_input" placeholder="Nhập nội dung..." class="input-text" />
-        <button class="send-btn" type="submit">📨</button>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    submitted = st.form_submit_button(label="Hidden Gửi")  # dùng để trigger form
+col1, col2 = st.columns([5, 1])
+with col1:
+    user_input = st.text_input("Sếp nhập nội dung cần trao đổi ở đây nhé?", 
+                               placeholder="Nhập nội dung...", 
+                               label_visibility="collapsed", 
+                               key="input_text")
 
-    # Mẹo lấy giá trị input (dùng workaround JS/script nâng cao nếu cần)
-    user_input = st.query_params.get("chat_input", "")
+with col2:
+    send_clicked = st.button("📨", use_container_width=True)
 
-# Xử lý
-if submitted and user_input:
+if send_clicked and user_input:
     st.session_state.messages.append({"role": "user", "content": user_input})
+
     with st.spinner("Đợi Trình trả lời..."):
         try:
             response = openai.ChatCompletion.create(
@@ -63,5 +59,6 @@ if submitted and user_input:
             )
             reply = response["choices"][0]["message"]["content"]
             st.session_state.messages.append({"role": "assistant", "content": reply})
+            st.session_state.input_text = ""  # reset input nếu muốn
         except Exception as e:
             st.error(f"❌ Lỗi: {e}")
