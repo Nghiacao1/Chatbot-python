@@ -59,6 +59,9 @@ if send_clicked and user_input:
             )
             reply = response["choices"][0]["message"]["content"]
             st.session_state.messages.append({"role": "assistant", "content": reply})
-            st.session_state.input_text = ""  # reset input nếu muốn
+
+            # Trick để "reset" input: force rerun bằng cách dùng st.experimental_rerun()
+            st.rerun()
         except Exception as e:
             st.error(f"❌ Lỗi: {e}")
+
