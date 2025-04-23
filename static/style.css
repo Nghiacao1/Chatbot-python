@@ -9,7 +9,6 @@
 .message {
   padding: 10px 15px;
   border-radius: 8px;
-  background-color: var(--bg-color); /* Trùng hoàn toàn với nền */
   color: var(--text-color);
   box-shadow: none;
   border: none;
@@ -17,7 +16,6 @@
 
 .message.user,
 .message.assistant {
-  background-color: var(--bg-color); /* Chắc chắn đồng màu */
   color: var(--text-color);
 }
 
