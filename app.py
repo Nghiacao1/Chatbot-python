@@ -1,62 +1,20 @@
 import streamlit as st
 import openai
-import os
-from dotenv import load_dotenv
 
-load_dotenv()
-
-# Cấu hình API từ secrets
+# Sử dụng OpenRouter API
 openai.api_key = st.secrets["OPENROUTER_API_KEY"]
-openai.api_base = "https://openrouter.ai/api/v1"  # Bắt buộc cho OpenRouter
+openai.api_base = "https://openrouter.ai/api/v1"
 
-# Cấu hình trang
-st.set_page_config(page_title="Trợ lý AI", layout="centered")
+st.title("🔐 Kiểm tra OpenRouter API Key")
 
-# Load CSS nếu có
-try:
-    with open("static/style.css") as f:
-        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
-except FileNotFoundError:
-    pass
-
-# Header
-st.markdown("<h1 class='title'>🧠 Anh Lập Trình - Trợ Lý AI</h1>", unsafe_allow_html=True)
-
-# Khởi tạo lịch sử tin nhắn
-if "messages" not in st.session_state:
-    st.session_state.messages = [
-        {"role": "system", "content": "🤖 Chào sếp! Tôi là Trình, trợ lý AI của bạn. Hãy bắt đầu trò chuyện nhé!"}
-    ]
-
-# Hiển thị lịch sử chat
-chat_html = '<div class="chat-box">'
-for m in st.session_state.messages:
-    role = m["role"]
-    content = m["content"]
-    if role == "user":
-        chat_html += f'<div class="message user">👤 Bạn: {content}</div>'
-    elif role == "assistant":
-        chat_html += f'<div class="message assistant">🤖: {content}</div>'
-    else:
-        chat_html += f'<div class="message system">{content}</div>'
-chat_html += '</div>'
-st.markdown(chat_html, unsafe_allow_html=True)
-
-# Input box
-user_input = st.text_input("Sếp nhập nội dung cần trao đổi ở đây nhé?", placeholder="Nhập nội dung...", label_visibility="collapsed")
-
-# Xử lý đầu vào
-if user_input:
-    st.session_state.messages.append({"role": "user", "content": user_input})
-    with st.spinner("Đợi Trình trả lời..."):
-        try:
-            response = openai.completions.create(
-                model="openai/gpt-3.5-turbo",  # Ghi đúng format OpenRouter
-                prompt=f"Bạn là một trợ lý AI thông minh. Hãy trả lời: {user_input}",
-                max_tokens=50
-            )
-            reply = response["choices"][0]["message"]["content"]
-            st.session_state.messages.append({"role": "assistant", "content": reply})
-            st.experimental_rerun()
-        except Exception as e:
-            st.error(f"❌ Lỗi: {e}")
+if st.button("Gửi yêu cầu test"):
+    try:
+        response = openai.ChatCompletion.create(
+            model="openai/gpt-3.5-turbo",
+            messages=[{"role": "user", "content": "Chào bạn, bạn có đang hoạt động không?"}],
+            max_tokens=50
+        )
+        reply = response["choices"][0]["message"]["content"]
+        st.success(f"✅ Key HOẠT ĐỘNG! Phản hồi từ model:\n\n{reply}")
+    except Exception as e:
+        st.error(f"❌ Key lỗi hoặc hết hạn: {e}")
