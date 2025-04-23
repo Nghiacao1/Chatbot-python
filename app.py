@@ -71,7 +71,7 @@ if user_input and user_input != st.session_state.last_input:
             st.session_state.messages.append({"role": "assistant", "content": reply})
 
             # Sau khi nhận được phản hồi:
-            # st.session_state.last_input = user_input
+            st.session_state.last_input = ''
             st.session_state.reset_input = True
             st.rerun()  # rerun để trigger đoạn xử lý ở đầu -> xóa input
 
