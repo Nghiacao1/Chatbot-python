@@ -37,20 +37,24 @@ for m in st.session_state.messages:
 chat_html += '</div>'
 st.markdown(chat_html, unsafe_allow_html=True)
 
-# Khởi tạo biến tạm nếu chưa có
+# Khởi tạo biến nếu chưa có
+if "messages" not in st.session_state:
+    st.session_state.messages = [
+        {"role": "system", "content": "🤖 Chào sếp! Tôi là Trình, trợ lý AI của bạn. Hãy bắt đầu trò chuyện nhé!"}
+    ]
+
 if "last_input" not in st.session_state:
     st.session_state.last_input = ""
-if "temp_input" not in st.session_state:
-    st.session_state.temp_input = ""
 
-# Ô nhập liệu
+# ✅ Đặt input box
 user_input = st.text_input("Sếp nhập nội dung cần trao đổi ở đây nhé?",
                            placeholder="Nhập nội dung...",
                            label_visibility="collapsed",
                            key="temp_input")
 
-# Nếu có input mới và khác với lần trước
+# ✅ Kiểm tra nếu có nội dung mới & chưa bị gửi
 if user_input and user_input != st.session_state.last_input:
+    # Xử lý gửi tin
     st.session_state.messages.append({"role": "user", "content": user_input})
 
     with st.spinner("Đợi Trình trả lời..."):
@@ -63,15 +67,18 @@ if user_input and user_input != st.session_state.last_input:
             reply = response["choices"][0]["message"]["content"]
             st.session_state.messages.append({"role": "assistant", "content": reply})
 
-            # Cập nhật input cuối cùng để tránh gửi lại
+            # Lưu để tránh gửi lại
             st.session_state.last_input = user_input
 
-            # Reset input bằng cách gán rỗng key temp_input rồi rerun
-            st.session_state.temp_input = ""
+            # ✅ Xóa key để tránh lỗi (CHẮC ĂN)
+            del st.session_state["temp_input"]
+
+            # Rerun vòng mới, input sẽ được reset
             st.experimental_rerun()
 
         except Exception as e:
             st.error(f"❌ Lỗi: {e}")
+
 
 
 
