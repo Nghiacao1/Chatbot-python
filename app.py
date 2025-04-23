@@ -52,7 +52,7 @@ if user_input:
     with st.spinner("Đợi Trình trả lời..."):
         try:
             response = openai.completions.create(
-                model="gpt-3.5-turbo",
+                model="openai/gpt-3.5-turbo",
                 prompt="Bạn là một trợ lý AI thông minh. Chào bạn!",
                 max_tokens=150
             )
