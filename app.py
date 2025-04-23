@@ -42,14 +42,47 @@ for m in st.session_state.messages:
 chat_html += '</div>'
 st.markdown(chat_html, unsafe_allow_html=True)
 
-# Ô nhập và nút gửi
+# CSS nút gửi đẹp
+st.markdown("""
+    <style>
+    .chat-row {
+        display: flex;
+        gap: 8px;
+    }
+    .chat-input {
+        flex: 1;
+    }
+    .send-button {
+        padding: 8px 16px;
+        background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+        border: none;
+        border-radius: 8px;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    .send-button:hover {
+        background: linear-gradient(90deg, #00f2fe 0%, #4facfe 100%);
+        transform: scale(1.03);
+    }
+    </style>
+""", unsafe_allow_html=True)
+
+# Tạo layout ngang cho input và nút gửi
 with st.form("chat_form", clear_on_submit=True):
+    st.markdown('<div class="chat-row">', unsafe_allow_html=True)
+
     user_input = st.text_input(
         "Sếp nhập nội dung cần trao đổi ở đây nhé?",
         placeholder="Nhập nội dung...",
-        label_visibility="collapsed"
+        label_visibility="collapsed",
+        key="chat_input"
     )
-    submitted = st.form_submit_button("Gửi")
+
+    st.markdown('</div>', unsafe_allow_html=True)
+    submitted = st.form_submit_button("Gửi", use_container_width=False)
+
 
 # Xử lý đầu vào
 if submitted and user_input:
