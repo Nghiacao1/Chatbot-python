@@ -26,7 +26,7 @@ st.markdown("<h1 class='title'>🧠 Anh Lập Trình - Trợ Lý AI</h1>", unsaf
 # Init session
 if "messages" not in st.session_state:
     st.session_state.messages = [
-        {"role": "system", "content": "🤖: Chào sếp! Tôi là Trình, trợ lý AI của bạn. Hãy bắt đầu trò chuyện nhé!"}
+        {"role": "system", "content": "🤖 Chào sếp! Tôi là Trình, trợ lý AI của bạn. Hãy bắt đầu trò chuyện nhé!"}
     ]
 
 if "input_key" not in st.session_state:
@@ -37,9 +37,9 @@ chat_html = '<div class="chat-box">'
 for m in st.session_state.messages:
     role, content = m["role"], m["content"]
     if role == "user":
-        chat_html += f'<div class="message user">👤: {content}</div>'
+        chat_html += f'<div class="message user">👤 {content}</div>'
     elif role == "assistant":
-        chat_html += f'<div class="message assistant">🤖: {content}</div>'
+        chat_html += f'<div class="message assistant">🤖 {content}</div>'
     else:
         chat_html += f'<div class="message system">{content}</div>'
 chat_html += '</div>'
