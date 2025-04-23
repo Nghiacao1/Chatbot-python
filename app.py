@@ -45,66 +45,66 @@ for m in st.session_state.messages:
 chat_html += '</div>'
 st.markdown(chat_html, unsafe_allow_html=True)
 
-custom_css = """
+# Inject custom CSS
+st.markdown("""
 <style>
-/* Form container */
-.chat-form {
+.chat-container {
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 1rem;
 }
 
-/* Custom input field */
-.custom-input {
-    flex: 1;
-    padding: 0.6rem 1rem;
+.chat-box {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+}
+
+input.custom-input {
+    width: 100%;
+    padding: 0.75rem 3rem 0.75rem 1rem;
     font-size: 1rem;
     border: 1.5px solid #e63946;
+    border-radius: 40px;
     background-color: #1e1e1e;
     color: white;
-    border-radius: 50px;
     outline: none;
 }
 
-/* Send button styled as icon */
-.custom-send-btn {
-    margin-left: -50px;
-    background: none;
+button.custom-send {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
     border: none;
+    background: none;
     color: #ccc;
     font-size: 1.5rem;
     cursor: pointer;
 }
 
-.custom-send-btn:hover {
+button.custom-send:hover {
     color: white;
 }
 </style>
-"""
-st.markdown(custom_css, unsafe_allow_html=True)
+""", unsafe_allow_html=True)
 
+# Chat form
+with st.form("chat_form", clear_on_submit=True):
+    st.markdown('<div class="chat-container"><div class="chat-box">', unsafe_allow_html=True)
 
-# === Input & xử lý gửi ===
-with st.form("chat_input", clear_on_submit=True):
-    st.markdown('<div class="chat-form">', unsafe_allow_html=True)
-    
-    # Ô nhập input
     user_input = st.text_input(
-        label="",
-        placeholder="Các nội dung nhập cần trao đổi ở đây nhé?",
-        key="custom_input",
-        label_visibility="collapsed"
+        "", placeholder="Các nội dung nhập cần trao đổi ở đây nhé?",
+        key="chat_input", label_visibility="collapsed"
     )
 
-    # Icon nút gửi ➤
-    st.markdown('<button class="custom-send-btn" type="submit">➤</button>', unsafe_allow_html=True)
-    
-    st.markdown('</div>', unsafe_allow_html=True)
-    
+    st.markdown('<button type="submit" class="custom-send">➤</button>', unsafe_allow_html=True)
+
+    st.markdown('</div></div>', unsafe_allow_html=True)
     submitted = st.form_submit_button("", type="primary")
 
-# === Xử lý khi gửi ===
+# Handle submission
 if submitted and user_input:
     st.session_state.messages.append({"role": "user", "content": user_input})
     with st.spinner("Đợi Trình trả lời..."):
