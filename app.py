@@ -1,12 +1,27 @@
+import uuid
 import streamlit as st
 import openai
-import uuid
+import os
+from dotenv import load_dotenv
 
-# Cấu hình OpenAI
+load_dotenv()
+
+# Cấu hình API
 openai.api_key = st.secrets["OPENROUTER_API_KEY"]
 openai.api_base = "https://openrouter.ai/api/v1"
 
 st.set_page_config(page_title="Trợ lý AI", layout="centered")
+
+
+# ======== Load CSS =========
+try:
+    with open("static/style.css") as f:
+        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+except FileNotFoundError:
+    pass
+
+# ======== Header =========
+st.markdown("<h1 class='title'>🧠 Anh Lập Trình - Trợ Lý AI</h1>", unsafe_allow_html=True)
 
 # Init session
 if "messages" not in st.session_state:
@@ -52,4 +67,11 @@ if user_input:
 
     # 💡 Tạo key mới để input trống lần sau
     st.session_state.input_key = str(uuid.uuid4())
-    st.experimental_rerun()
+    st.rerun()
+
+
+
+
+
+
+
