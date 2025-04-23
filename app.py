@@ -49,6 +49,7 @@ user_input = st.text_input("Sếp nhập nội dung cần trao đổi ở đây 
 if user_input:
     # Lưu tin nhắn người dùng vào session_state
     st.session_state.messages.append({"role": "user", "content": user_input})
+
     with st.spinner("Đợi Trình trả lời..."):
         try:
             # Gửi toàn bộ lịch sử tin nhắn vào API (bao gồm cả tin nhắn người dùng)
@@ -57,11 +58,15 @@ if user_input:
                 messages=st.session_state.messages,  # Gửi toàn bộ lịch sử hội thoại
                 max_tokens=150  # Điều chỉnh số token nếu cần
             )
+
             # Lấy phản hồi của AI
             reply = response["choices"][0]["message"]["content"]
+
             # Chỉ thêm phản hồi của AI vào lịch sử chat
             st.session_state.messages.append({"role": "assistant", "content": reply})
+
             # Làm mới trang để cập nhật hội thoại
-            # st.rerun()
+            st.rerun()  # Đảm bảo trang được làm mới sau khi cập nhật lịch sử chat
+
         except Exception as e:
             st.error(f"❌ Lỗi: {e}")
