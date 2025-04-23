@@ -37,11 +37,11 @@ for m in st.session_state.messages:
 chat_html += '</div>'
 st.markdown(chat_html, unsafe_allow_html=True)
 
-# Xoá input nếu cần reset
-if st.session_state.get("reset_input", False):
-    st.session_state.pop("temp_input", None)
-    st.session_state["reset_input"] = False
-
+# ======== RESET TRƯỚC KHI RENDER WIDGET =========
+if "reset_input" in st.session_state and st.session_state.reset_input:
+    del st.session_state["temp_input"]
+    st.session_state.reset_input = False
+    st.rerun()
 
 # ======== KHỞI TẠO BAN ĐẦU =========
 if "messages" not in st.session_state:
@@ -52,13 +52,13 @@ if "messages" not in st.session_state:
 if "last_input" not in st.session_state:
     st.session_state.last_input = ""
 
-# Hiển thị input box
+# ======== INPUT BOX =========
 user_input = st.text_input("Sếp nhập nội dung cần trao đổi ở đây nhé?",
                            placeholder="Nhập nội dung...",
                            label_visibility="collapsed",
                            key="temp_input")
 
-# Kiểm tra nếu có nội dung mới
+# ======== XỬ LÝ GỬI =========
 if user_input and user_input != st.session_state.last_input:
     st.session_state.messages.append({"role": "user", "content": user_input})
 
@@ -72,9 +72,11 @@ if user_input and user_input != st.session_state.last_input:
             reply = response["choices"][0]["message"]["content"]
             st.session_state.messages.append({"role": "assistant", "content": reply})
 
-            # Cập nhật và trigger reset
+            # Đánh dấu đã gửi input này
             st.session_state.last_input = user_input
-            st.session_state["reset_input"] = True
+
+            # Đặt cờ reset input
+            st.session_state.reset_input = True
             st.rerun()
 
         except Exception as e:
