@@ -1,43 +1,23 @@
 import streamlit as st
 import openai
-import os
-from dotenv import load_dotenv
+import uuid
 
-load_dotenv()
-
-# Cấu hình API
+# Cấu hình OpenAI
 openai.api_key = st.secrets["OPENROUTER_API_KEY"]
 openai.api_base = "https://openrouter.ai/api/v1"
 
 st.set_page_config(page_title="Trợ lý AI", layout="centered")
 
-# ======== RESET INPUT SỚM TRƯỚC KHI RENDER =========
-if st.session_state.get("reset_input", False):
-    st.session_state.pop("temp_input", None)  # xóa input key
-    st.session_state["reset_input"] = False
-    st.rerun()  # rerun lại, input sẽ được khởi tạo mới tinh
-
-
-# ======== KHỞI TẠO BIẾN =========
+# Init session
 if "messages" not in st.session_state:
     st.session_state.messages = [
         {"role": "system", "content": "🤖 Chào sếp! Tôi là Trình, trợ lý AI của bạn. Hãy bắt đầu trò chuyện nhé!"}
     ]
 
-if "last_input" not in st.session_state:
-    st.session_state.last_input = ""
+if "input_key" not in st.session_state:
+    st.session_state.input_key = str(uuid.uuid4())  # Key input sẽ thay đổi mỗi lần gửi
 
-# ======== Load CSS =========
-try:
-    with open("static/style.css") as f:
-        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
-except FileNotFoundError:
-    pass
-
-# ======== Header =========
-st.markdown("<h1 class='title'>🧠 Anh Lập Trình - Trợ Lý AI</h1>", unsafe_allow_html=True)
-
-# ======== Hiển thị chat =========
+# === Hiển thị nội dung chat ===
 chat_html = '<div class="chat-box">'
 for m in st.session_state.messages:
     role, content = m["role"], m["content"]
@@ -50,16 +30,14 @@ for m in st.session_state.messages:
 chat_html += '</div>'
 st.markdown(chat_html, unsafe_allow_html=True)
 
-# ======== Input =========
-user_input = st.text_input("Sếp nhập nội dung cần trao đổi ở đây nhé?",
-                           placeholder="Nhập nội dung...",
-                           label_visibility="collapsed",
-                           key="temp_input")
+# === Input & xử lý gửi ===
+user_input = st.text_input("Nhập nội dung...", 
+                           key=st.session_state.input_key,
+                           placeholder="Nhập gì đó...", 
+                           label_visibility="collapsed")
 
-# ======== Xử lý gửi =========
-if user_input and user_input != st.session_state.last_input:
+if user_input:
     st.session_state.messages.append({"role": "user", "content": user_input})
-
     with st.spinner("Đợi Trình trả lời..."):
         try:
             response = openai.ChatCompletion.create(
@@ -69,18 +47,9 @@ if user_input and user_input != st.session_state.last_input:
             )
             reply = response["choices"][0]["message"]["content"]
             st.session_state.messages.append({"role": "assistant", "content": reply})
-
-            # Sau khi nhận được phản hồi:
-            st.session_state.last_input = user_input
-            st.session_state.reset_input = True
-            st.rerun()  # rerun để trigger đoạn xử lý ở đầu -> xóa input
-
         except Exception as e:
             st.error(f"❌ Lỗi: {e}")
 
-
-
-
-
-
-
+    # 💡 Tạo key mới để input trống lần sau
+    st.session_state.input_key = str(uuid.uuid4())
+    st.rerun()
