@@ -14,7 +14,11 @@ st.set_page_config(page_title="Trợ lý AI", layout="centered")
 
 
 # ======== Load CSS =========
-st.markdown("<style>" + open("static/style.css").read() + "</style>", unsafe_allow_html=True)
+try:
+    with open("static/style.css") as f:
+        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+except FileNotFoundError:
+    pass
 
 # ======== Header =========
 st.markdown("<h1 class='title'>🧠 Anh Lập Trình - Trợ Lý AI</h1>", unsafe_allow_html=True)
@@ -41,23 +45,53 @@ for m in st.session_state.messages:
 chat_html += '</div>'
 st.markdown(chat_html, unsafe_allow_html=True)
 
+custom_css = """
+<style>
+/* Form container */
+.chat-form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
 
-# Chat form
-with st.form("chat_form", clear_on_submit=True):
-    st.markdown('<div class="chat-container"><div class="chat-box">', unsafe_allow_html=True)
+/* Custom input field */
+.custom-input {
+    flex: 1;
+    padding: 0.6rem 1rem;
+    font-size: 1rem;
+    border: 1.5px solid #e63946;
+    background-color: #1e1e1e;
+    color: white;
+    border-radius: 50px;
+    outline: none;
+}
 
-    user_input = st.text_input(
-        "", placeholder="Các nội dung nhập cần trao đổi ở đây nhé?",
-        key="chat_input", label_visibility="collapsed"
-    )
+/* Send button styled as icon */
+.custom-send-btn {
+    margin-left: -50px;
+    background: none;
+    border: none;
+    color: #ccc;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
 
-    st.markdown('<button type="submit" class="custom-send">➤</button>', unsafe_allow_html=True)
+.custom-send-btn:hover {
+    color: white;
+}
+</style>
+"""
+st.markdown(custom_css, unsafe_allow_html=True)
 
-    st.markdown('</div></div>', unsafe_allow_html=True)
-    submitted = st.form_submit_button("", type="primary")
 
-# Handle submission
-if submitted and user_input:
+# === Input & xử lý gửi ===
+user_input = st.text_input("Nhập nội dung...", 
+                           key=st.session_state.input_key,
+                           placeholder="Nhập gì đó...", 
+                           label_visibility="collapsed")
+
+if user_input:
     st.session_state.messages.append({"role": "user", "content": user_input})
     with st.spinner("Đợi Trình trả lời..."):
         try:
