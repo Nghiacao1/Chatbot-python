@@ -11,7 +11,7 @@ if st.button("Gửi yêu cầu test"):
     try:
         response = openai.completions.create(
             model="openai/gpt-3.5-turbo",
-            prompt=f"Bạn là một trợ lý AI thông minh. Hãy trả lời: {user_input}",
+            prompt=f"Bạn là một trợ lý AI thông minh.",
             max_tokens=50
         )
         reply = response["choices"][0]["message"]["content"]
