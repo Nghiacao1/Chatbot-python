@@ -74,7 +74,7 @@ if user_input and user_input != st.session_state.last_input:
             del st.session_state["temp_input"]
 
             # Rerun vòng mới, input sẽ được reset
-            st.experimental_rerun()
+            st.rerun()
 
         except Exception as e:
             st.error(f"❌ Lỗi: {e}")
