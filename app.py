@@ -50,9 +50,9 @@ if user_input:
     st.session_state.messages.append({"role": "user", "content": user_input})
     with st.spinner("Đợi Trình trả lời..."):
         try:
-            response = openai.ChatCompletion.create(
+            response = openai.completions.create(
                 model="openai/gpt-3.5-turbo",  # Ghi đúng format OpenRouter
-                messages=st.session_state.messages,
+                prompt=f"Bạn là một trợ lý AI thông minh. Hãy trả lời: {user_input}",
                 max_tokens=150
             )
             reply = response["choices"][0]["message"]["content"]
