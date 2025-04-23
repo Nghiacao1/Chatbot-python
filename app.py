@@ -53,7 +53,7 @@ if user_input:
             response = openai.completions.create(
                 model="openai/gpt-3.5-turbo",  # Ghi đúng format OpenRouter
                 prompt=f"Bạn là một trợ lý AI thông minh. Hãy trả lời: {user_input}",
-                max_tokens=150
+                max_tokens=50
             )
             reply = response["choices"][0]["message"]["content"]
             st.session_state.messages.append({"role": "assistant", "content": reply})
