@@ -45,46 +45,6 @@ for m in st.session_state.messages:
 chat_html += '</div>'
 st.markdown(chat_html, unsafe_allow_html=True)
 
-custom_css = """
-<style>
-/* Form container */
-.chat-form {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
-}
-
-/* Custom input field */
-.custom-input {
-    flex: 1;
-    padding: 0.6rem 1rem;
-    font-size: 1rem;
-    border: 1.5px solid #e63946;
-    background-color: #1e1e1e;
-    color: white;
-    border-radius: 50px;
-    outline: none;
-}
-
-/* Send button styled as icon */
-.custom-send-btn {
-    margin-left: -50px;
-    background: none;
-    border: none;
-    color: #ccc;
-    font-size: 1.5rem;
-    cursor: pointer;
-}
-
-.custom-send-btn:hover {
-    color: white;
-}
-</style>
-"""
-st.markdown(custom_css, unsafe_allow_html=True)
-
-
 # === Input & xử lý gửi ===
 user_input = st.text_input("Nhập nội dung...", 
                            key=st.session_state.input_key,
