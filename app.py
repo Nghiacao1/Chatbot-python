@@ -48,23 +48,20 @@ user_input = st.text_input("Sếp nhập nội dung cần trao đổi ở đây 
                            label_visibility="collapsed",
                            key="user_input")
 
-
 # Xử lý đầu vào
 if user_input:
-        st.session_state.messages.append({"role": "user", "content": user_input})
+    st.session_state.messages.append({"role": "user", "content": user_input})
 
-        with st.spinner("Đợi Trình trả lời..."):
-            try:
-                response = openai.ChatCompletion.create(
-                    model="openai/gpt-3.5-turbo",
-                    messages=st.session_state.messages,
-                    max_tokens=150
-                )
+    with st.spinner("Đợi Trình trả lời..."):
+        try:
+            response = openai.ChatCompletion.create(
+                model="openai/gpt-3.5-turbo",
+                messages=st.session_state.messages,
+                max_tokens=150
+            )
+            reply = response["choices"][0]["message"]["content"]
+            st.session_state.messages.append({"role": "assistant", "content": reply})
 
-                reply = response["choices"][0]["message"]["content"]
-                st.session_state.messages.append({"role": "assistant", "content": reply})
-
-                # Reset đúng key của text_input
-                st.session_state.user_input = ""
-            except Exception as e:
-                st.error(f"❌ Lỗi: {e}")
+            st.rerun()  # Làm mới giao diện, không lỗi key
+        except Exception as e:
+            st.error(f"❌ Lỗi: {e}")
