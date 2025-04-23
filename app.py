@@ -37,21 +37,14 @@ for m in st.session_state.messages:
 chat_html += '</div>'
 st.markdown(chat_html, unsafe_allow_html=True)
 
-# --- Input layout ---
-col1, col2 = st.columns([5, 1])
-with col1:
-    st.text_input("Sếp nhập nội dung cần trao đổi ở đây nhé?",
-                  placeholder="Nhập nội dung...",
-                  label_visibility="collapsed",
-                  key="user_input")
-with col2:
-    send_clicked = st.button("📨", use_container_width=True)
+# Tạo input box
+user_input = st.text_input("Sếp nhập nội dung cần trao đổi ở đây nhé?",
+                           placeholder="Nhập nội dung...",
+                           label_visibility="collapsed",
+                           key="user_input")
 
-# --- Xử lý gửi ---
-if send_clicked and st.session_state.user_input.strip():
-    user_input = st.session_state.user_input.strip()
-
-    # Lưu tin nhắn người dùng
+# Kiểm tra nếu có nội dung và chưa gửi trong lần rerun hiện tại
+if user_input and "last_input" in st.session_state and user_input != st.session_state.last_input:
     st.session_state.messages.append({"role": "user", "content": user_input})
 
     with st.spinner("Đợi Trình trả lời..."):
@@ -64,13 +57,22 @@ if send_clicked and st.session_state.user_input.strip():
             reply = response["choices"][0]["message"]["content"]
             st.session_state.messages.append({"role": "assistant", "content": reply})
 
-            # Sau khi gửi xong thì reset input
+            # Lưu input hiện tại để tránh gửi lặp khi rerun
+            st.session_state.last_input = user_input
+
+            # Xóa nội dung ô input (reset key này)
             st.session_state.user_input = ""
 
-            # Rerun để input trống
+            # Rerun để cập nhật UI
             st.rerun()
+
         except Exception as e:
             st.error(f"❌ Lỗi: {e}")
+
+# Nếu chưa có last_input thì khởi tạo
+if "last_input" not in st.session_state:
+    st.session_state.last_input = ""
+
 
 
 
