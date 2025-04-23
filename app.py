@@ -65,7 +65,7 @@ if st.button("Gửi"):
                 reply = response["choices"][0]["message"]["content"]
                 st.session_state.messages.append({"role": "assistant", "content": reply})
 
-                # Reset nội dung ô input
-                st.session_state.input_box = ""
+                # Reset đúng key của text_input
+                st.session_state.user_input = ""
             except Exception as e:
                 st.error(f"❌ Lỗi: {e}")
