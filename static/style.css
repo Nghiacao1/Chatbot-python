@@ -50,17 +50,17 @@ body {
   line-height: 1.4;
   word-wrap: break-word;
   color: var(--text-color);
-  background-color: var(--msg-bg); /* Thêm dòng này */
+  color: var(--msg-bg); /* Thêm dòng này */
 }
 
 .message.user {
   align-self: flex-end;
-  background-color: var(--user-msg-bg); /* Thêm dòng này */
+  color: var(--user-msg-bg); /* Thêm dòng này */
 }
 
 .message.assistant {
   align-self: flex-start;
-  background-color: var(--assistant-msg-bg); /* Thêm dòng này */
+  color: var(--assistant-msg-bg); /* Thêm dòng này */
 }
 /* === INPUT STYLE MỚI === */
 .input-container {
