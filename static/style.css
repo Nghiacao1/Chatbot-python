@@ -43,14 +43,21 @@ body {
   flex-direction: column;
   gap: 12px;
 }
-
-.message {
+.message.dark {
   padding: 10px 15px;
   border-radius: 8px;
   line-height: 1.4;
   word-wrap: break-word;
   color: var(--text-color);
-  color: var(--msg-bg); /* Thêm dòng này */
+  background-color: var(--msg-bg); /* Thêm dòng này */
+}
+.message.light {
+  padding: 10px 15px;
+  border-radius: 8px;
+  line-height: 1.4;
+  word-wrap: break-word;
+  color: var(--text-color);
+  background-color: var(--msg-bg); /* Thêm dòng này */
 }
 
 .message.user {
