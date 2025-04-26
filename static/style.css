@@ -2,7 +2,8 @@
   --bg-color: #121212;
   --text-color: #ffffff;
   --chat-bg: #1f1f1f;
-  --msg-bg: #000000;
+  --dark-msg-bg: #000000;
+  --light-msg-bg: #ffffff;
   --user-msg-bg: #000000;          /* 💬 nền đen cho người dùng */
   --assistant-msg-bg: #000000;    /* 💬 nền đen cho trợ lý */
 }
@@ -49,7 +50,7 @@ body {
   line-height: 1.4;
   word-wrap: break-word;
   color: var(--text-color);
-  background-color: var(--msg-bg); /* Thêm dòng này */
+  background-color: var(--dark-msg-bg); /* Thêm dòng này */
 }
 .message.light {
   padding: 10px 15px;
@@ -57,7 +58,7 @@ body {
   line-height: 1.4;
   word-wrap: break-word;
   color: var(--text-color);
-  background-color: var(--msg-bg); /* Thêm dòng này */
+  background-color: var(--light-msg-bg); /* Thêm dòng này */
 }
 
 .message.user {
