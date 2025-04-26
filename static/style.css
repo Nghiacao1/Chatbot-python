@@ -61,11 +61,14 @@ body {
   background-color: var(--light-msg-bg); /* Thêm dòng này */
 }
 
-.message.user {
+.message.user.light {
+  align-self: flex-end;
+  color: var(--light-msg-bg); /* Thêm dòng này */
+}
+.message.user.dark {
   align-self: flex-end;
   color: var(--user-msg-bg); /* Thêm dòng này */
 }
-
 .message.assistant {
   align-self: flex-start;
   color: var(--assistant-msg-bg); /* Thêm dòng này */
