@@ -61,17 +61,28 @@ body {
   background-color: var(--light-msg-bg); /* Thêm dòng này */
 }
 
-.message.user.light {
-  align-self: flex-end;
-  color: var(--light-msg-bg); /* Thêm dòng này */
+@media (prefers-color-scheme: dark) {
+  .message.user {
+    align-self: flex-end;
+    color: white;
+  }
+
+  .message.assistant {
+    align-self: flex-start;
+    color: white;
+  }
 }
-.message.user.dark {
-  align-self: flex-end;
-  color: var(--user-msg-bg); /* Thêm dòng này */
-}
-.message.assistant {
-  align-self: flex-start;
-  color: var(--assistant-msg-bg); /* Thêm dòng này */
+
+@media (prefers-color-scheme: light) {
+  .message.user {
+    align-self: flex-end;
+    color: black;
+  }
+
+  .message.assistant {
+    align-self: flex-start;
+    color: black;
+  }
 }
 /* === INPUT STYLE MỚI === */
 .input-container {
