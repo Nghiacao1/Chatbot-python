@@ -2,6 +2,7 @@
   --bg-color: #121212;
   --text-color: #ffffff;
   --chat-bg: #1f1f1f;
+  --msg-bg: #000000;
   --user-msg-bg: #000000;          /* 💬 nền đen cho người dùng */
   --assistant-msg-bg: #000000;    /* 💬 nền đen cho trợ lý */
 }
@@ -49,6 +50,7 @@ body {
   line-height: 1.4;
   word-wrap: break-word;
   color: var(--text-color);
+  background-color: var(--msg-bg); /* Thêm dòng này */
 }
 
 .message.user {
