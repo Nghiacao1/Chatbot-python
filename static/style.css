@@ -2,7 +2,7 @@
   --bg-color: #121212;
   --text-color: #ffffff;
   --chat-bg: #1f1f1f;
-  --user-msg-bg: #000000;         /* 💬 nền đen cho người dùng */
+  --user-msg-bg: #000000;          /* 💬 nền đen cho người dùng */
   --assistant-msg-bg: #000000;    /* 💬 nền đen cho trợ lý */
 }
 
@@ -53,12 +53,13 @@ body {
 
 .message.user {
   align-self: flex-end;
+  background-color: var(--user-msg-bg); /* Thêm dòng này */
 }
 
 .message.assistant {
   align-self: flex-start;
+  background-color: var(--assistant-msg-bg); /* Thêm dòng này */
 }
-
 /* === INPUT STYLE MỚI === */
 .input-container {
   position: relative;
