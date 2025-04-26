@@ -60,28 +60,44 @@ body {
   color: var(--text-color);
   background-color: var(--light-msg-bg); /* Thêm dòng này */
 }
+/* Animation xuất hiện mượt mà */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
+/* Áp dụng chung cho tất cả message */
+.message {
+  animation: fadeIn 0.4s ease;
+  padding: 10px 15px;
+  border-radius: 8px;
+  line-height: 1.4;
+  word-wrap: break-word;
+}
+
+/* Dark mode */
 @media (prefers-color-scheme: dark) {
   .message.user {
     align-self: flex-end;
-    color: white;
+    color: #00f2fe; /* user: xanh neon */
   }
 
   .message.assistant {
     align-self: flex-start;
-    color: white;
+    color: #cccccc; /* assistant: xám nhạt */
   }
 }
 
+/* Light mode */
 @media (prefers-color-scheme: light) {
   .message.user {
     align-self: flex-end;
-    color: black;
+    color: #0077ff; /* user: xanh dương đậm */
   }
 
   .message.assistant {
     align-self: flex-start;
-    color: black;
+    color: #333333; /* assistant: xám đậm */
   }
 }
 /* === INPUT STYLE MỚI === */
